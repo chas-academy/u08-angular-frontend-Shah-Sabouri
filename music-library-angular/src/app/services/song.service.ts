@@ -27,11 +27,11 @@ export class SongService {
 
   // UPPDATERA LÅT
   updateSong(id: string, song: any): Observable<any> {
-    return this.http.put<Song>(`${this.apiURL}/${id}`, song);
+    return this.http.put(`${this.apiURL}/${id}`, song);
   }
 
   // RADERA LÅT
-  deleteSong(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiURL}/${id}`);
+  deleteSong(id: string): Observable<any> {
+    return this.http.delete(`${this.apiURL}/${id}`);
   }
 }
