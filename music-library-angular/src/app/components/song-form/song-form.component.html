@@ -1,1 +1,27 @@
-<p>song-form works!</p>
+<h2>{{ isEditMode ? 'Redigera låt' : 'Lägg till låt' }}</h2>
+
+<form (ngSubmit)="onSubmit()">
+    <div>
+        <label for="title">Titel:</label>
+        <input id="title" type="text" [(ngModel)]="song.title" name="title" required />
+    </div>
+
+    <div>
+        <label for="artist">Artist:</label>
+        <input id="artist" type="text" [(ngModel)]="song.artist" name="artist" required />
+    </div>
+
+    <div>
+        <label for="genre">Genre:</label>
+        <input id="genre" type="text" [(ngModel)]="song.genre" name="genre" />
+    </div>
+
+    <div>
+        <label for="rating">Betyg (1–10):</label>
+        <input id="rating" type="number" [(ngModel)]="song.rating" name="rating" min="1" max="10" />
+    </div>
+
+    <button type="submit">
+        {{ isEditMode ? 'Uppdatera låt' : 'Lägg till låt' }}
+    </button>
+</form>

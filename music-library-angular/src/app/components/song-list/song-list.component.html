@@ -1,5 +1,6 @@
 <ul>
     <li *ngFor="let song of songs">
         <strong>{{ song.title }}</strong> av {{ song.artist }} ({{ song.genre }}) – Betyg: {{ song.rating }}
+        <a *ngIf="song.id" [routerLink]="'/edit/' + song.id">Redigera</a>
     </li>
 </ul>
