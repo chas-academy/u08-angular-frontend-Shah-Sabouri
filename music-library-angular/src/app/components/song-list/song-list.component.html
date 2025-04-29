@@ -1,1 +1,5 @@
-<p>song-list works!</p>
+<ul>
+    <li *ngFor="let song of songs">
+        <strong>{{ song.title }}</strong> av {{ song.artist }} ({{ song.genre }}) – Betyg: {{ song.rating }}
+    </li>
+</ul>
