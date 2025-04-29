@@ -11,9 +11,9 @@ export class SongService {
 
   constructor(private http: HttpClient) { }
 
-  // HÄMTA ALLA LÅTAR
-  getSongs(): Observable<Song> {
-    return this.http.get<Song>(`${this.apiURL}`)
+  // HÄMTA ALLA LÅTAR (ändra till en array av låtar)
+  getSongs(): Observable<Song[]> {
+    return this.http.get<Song[]>(`${this.apiURL}`);
   }
 
   // HÄMTA LåT MED ID
