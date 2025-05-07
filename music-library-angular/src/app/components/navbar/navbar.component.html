@@ -1,4 +1,6 @@
 <nav>
     <button routerLink="/" routerLinkActive="active">Hem</button>
-    <button routerLink="/add" routerLinkActive="active">Lägg till låt</button>
+    <button (click)="toggleDrawer()">Lägg till låt</button>
 </nav>
+
+<app-song-drawer *ngIf="showDrawer" (close)="closeDrawer()"></app-song-drawer>
