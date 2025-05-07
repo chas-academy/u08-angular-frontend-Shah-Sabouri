@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Song } from '../../models/song.model';
 import { SongService } from '../../services/song.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, FormsModule, RouterModule]
 })
 export class SongFormComponent implements OnInit {
-  song: Song = {
+  @Input() song: Song = {
     title: '',
     artist: '',
     genre: '',
@@ -22,8 +22,9 @@ export class SongFormComponent implements OnInit {
     id: '',
   };
 
-  isEditMode = false;
-  songId: string | null = null;
+  get isEditMode(): boolean {
+    return !!this.song.id;
+  }
 
   constructor(
     private songService: SongService,
@@ -32,34 +33,33 @@ export class SongFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.songId = this.route.snapshot.paramMap.get('id');
-    if (this.songId) {
-      this.isEditMode = true;
-      this.songService.getSongById(this.songId).subscribe({
-        next: (data) => {
-          this.song = data;
-        },
-        error: (err) => {
-          console.error('Kunde inte hämta låten:', err);
-        }
-      });
+    if (!this.song.id) {
+      const id = this.route.snapshot.paramMap.get('id');
+      if (id) {
+        this.songService.getSongById(id).subscribe({
+          next: (data) => {
+            this.song = data;
+          },
+          error: (err) => {
+            console.error('Kunde inte hämta låten:', err);
+          }
+        });
+      }
     }
   }
 
   onSubmit(): void {
-    if (this.isEditMode && this.songId) {
-      // Om i "redigeringsläge", uppdateras låten
-      this.songService.updateSong(this.songId, this.song).subscribe({
+    if (this.isEditMode) {
+      this.songService.updateSong(this.song.id, this.song).subscribe({
         next: () => this.router.navigate(['/']),
         error: (err) => console.error('Kunde inte uppdatera låt:', err)
       });
     } else {
-      // Om i "skapa-läge", lägger man till ny låt
       this.songService.addSong(this.song).subscribe({
         next: () => this.router.navigate(['/']),
         error: (err) => console.error('Kunde inte lägga till låt:', err)
       });
     }
   }
-  
 }
+

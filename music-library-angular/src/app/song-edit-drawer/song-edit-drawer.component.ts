@@ -1,11 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Song } from '../models/song.model';
+import { CommonModule } from '@angular/common';
+import { SongFormComponent } from '../components/song-form/song-form.component';
 
 @Component({
   selector: 'app-song-edit-drawer',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, SongFormComponent],
   templateUrl: './song-edit-drawer.component.html',
-  styleUrl: './song-edit-drawer.component.css'
+  styleUrls: ['./song-edit-drawer.component.css']
 })
 export class SongEditDrawerComponent {
+  @Input() song!: Song;
+  @Output() close = new EventEmitter<void>();
 
+  closeDrawer() {
+    this.close.emit();
+  }
 }
