@@ -1,7 +1,8 @@
 <ul>
     <li *ngFor="let song of songs">
-        <strong>{{ song.title }}</strong> av {{ song.artist }} ({{ song.genre }}) – Betyg: {{ song.rating }}
+        <strong>{{ song.title }}</strong> av {{ song.artist }} ({{ song.genre }}) – Betyg: {{ song.rating }}<br>
         <button type="button" (click)="openEditDrawer(song)">Redigera</button>
+        <button type="submit">Ta bort</button>
     </li>
 </ul>
 
