@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Song } from '../../models/song.model';
 import { SongService } from '../../services/song.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,6 +15,16 @@ import { RouterModule } from '@angular/router';
 })
 export class SongFormComponent implements OnInit {
   @Input() song: Song = {
+    title: '',
+    artist: '',
+    genre: '',
+    rating: 1,
+    id: '',
+  };
+
+  @Output() cancelEdit = new EventEmitter<void>();
+
+  originalSong: Song = {
     title: '',
     artist: '',
     genre: '',
@@ -39,20 +49,27 @@ export class SongFormComponent implements OnInit {
         this.songService.getSongById(id).subscribe({
           next: (data) => {
             this.song = data;
+            this.originalSong = { ...data };
           },
           error: (err) => {
             console.error('Kunde inte hämta låten:', err);
           }
         });
       }
+    } else {
+      this.originalSong = { ...this.song };
     }
   }
+
+  @Output() songUpdated = new EventEmitter<Song>();
 
   onSubmit(): void {
     if (this.isEditMode) {
       this.songService.updateSong(this.song.id, this.song).subscribe({
-        next: () => this.router.navigate(['/']),
-        error: (err) => console.error('Kunde inte uppdatera låt:', err)
+        next: () => {
+          this.songUpdated.emit(this.song);
+        },
+        error: (err) => console.error('Kunde inte uppdatera låt', err)
       });
     } else {
       this.songService.addSong(this.song).subscribe({
@@ -60,6 +77,11 @@ export class SongFormComponent implements OnInit {
         error: (err) => console.error('Kunde inte lägga till låt:', err)
       });
     }
+  }
+
+  onCancel(): void {
+    this.song = { ...this.originalSong };
+    this.cancelEdit.emit();
   }
 }
 
