@@ -16,9 +16,12 @@ export class SongService {
   getSongs(): Observable<Song[]> {
     return this.http.get<any[]>(this.apiURL).pipe(
       map(songs =>
-        songs.map(song => ({
-          ...song,
-          id: song._id
+        songs.map(({ _id, title, artist, genre, rating }) => ({
+          id: _id,
+          title,
+          artist,
+          genre,
+          rating
         }))
       )
     );
@@ -27,9 +30,12 @@ export class SongService {
   // HÄMTA LåT MED ID
   getSongById(id: string): Observable<Song> {
     return this.http.get<any>(`${this.apiURL}/${id}`).pipe(
-      map(song => ({
-        ...song,
-        id: song._id
+      map(({ _id, title, artist, genre, rating }) => ({
+        id: _id,
+        title,
+        artist,
+        genre,
+        rating
       }))
     );
   }
