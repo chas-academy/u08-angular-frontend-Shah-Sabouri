@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Song } from '../models/song.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +12,26 @@ export class SongService {
 
   constructor(private http: HttpClient) { }
 
-  // HÄMTA ALLA LÅTAR (ändra till en array av låtar)
+  // HÄMTA ALLA LÅTAR
   getSongs(): Observable<Song[]> {
-    return this.http.get<Song[]>(`${this.apiURL}`);
+    return this.http.get<any[]>(this.apiURL).pipe(
+      map(songs =>
+        songs.map(song => ({
+          ...song,
+          id: song._id
+        }))
+      )
+    );
   }
 
   // HÄMTA LåT MED ID
   getSongById(id: string): Observable<Song> {
-    return this.http.get<Song>(`${this.apiURL}/${id}`)
+    return this.http.get<any>(`${this.apiURL}/${id}`).pipe(
+      map(song => ({
+        ...song,
+        id: song._id
+      }))
+    );
   }
 
   // LÄGG TILL LÅT
@@ -32,7 +45,7 @@ export class SongService {
   }
 
   // RADERA LÅT
-  deleteSong(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiURL}/${id}`);
+  deleteSong(id: string): Observable<any> {
+    return this.http.delete(`${this.apiURL}/${id}`);
   }
 }

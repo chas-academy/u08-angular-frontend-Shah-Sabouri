@@ -2,8 +2,12 @@
     <li *ngFor="let song of songs">
         <strong>{{ song.title }}</strong> av {{ song.artist }} ({{ song.genre }}) – Betyg: {{ song.rating }}<br>
         <button type="button" (click)="openEditDrawer(song)">Redigera</button>
-        <button type="submit">Ta bort</button>
+        <button type="button" (click)="deleteSong(song.id)">Ta bort</button>
     </li>
 </ul>
 
-<app-song-edit-drawer *ngIf="selectedSong" [song]="selectedSong" (close)="closeEditDrawer()"></app-song-edit-drawer>
+<app-song-edit-drawer 
+*ngIf="selectedSong" 
+[song]="selectedSong" 
+(close)="closeEditDrawer()">
+</app-song-edit-drawer>

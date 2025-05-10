@@ -19,26 +19,13 @@ export class SongListComponent implements OnInit {
 
   constructor(private songService: SongService) { }
 
-  ngOnInit(): void {
-    this.songService.getSongs().subscribe({
-      next: (songs) => {
-        this.songs = songs;
-        console.log('Låtar hittade:', songs);
-      },
-      error: (err) => {
-        console.error('Fel vid hämtning av låtar', err);
-      }
-    });
+  ngOnInit() {
+    this.getSongs();
   }
 
-  deleteSong(id: string): void {
-    this.songService.deleteSong(id).subscribe({
-      next: () => {
-        this.songs = this.songs.filter(song => song.id !== id);
-      },
-      error: (err) => {
-        console.error('Fel vid radering av låt:', err);
-      }
+  getSongs() {
+    this.songService.getSongs().subscribe((data) => {
+      this.songs = data;
     });
   }
 
@@ -48,5 +35,18 @@ export class SongListComponent implements OnInit {
 
   closeEditDrawer() {
     this.selectedSong = null;
+  }
+
+  deleteSong(songId: string): void {
+    if (confirm('Är du säker på att du vill ta bort denna låt?')) {
+      this.songService.deleteSong(songId).subscribe({
+        next: () => {
+          this.songs = this.songs.filter(song => song.id !== songId);
+        },
+        error: (err) => {
+          console.error('Fel vid borttagning:', err)
+        }
+      });
+    }
   }
 }
