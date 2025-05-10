@@ -19,70 +19,68 @@ describe('SongListComponent', () => {
         mockSongService = jasmine.createSpyObj('SongService', ['getSongs', 'deleteSong']);
 
         await TestBed.configureTestingModule({
-            imports: [SongListComponent, RouterTestingModule],
-            providers: [
-                { provide: SongService, useValue: mockSongService }
-            ]
+        imports: [SongListComponent, RouterTestingModule],
+        providers: [{ provide: SongService, useValue: mockSongService }]
         }).compileComponents();
 
         fixture = TestBed.createComponent(SongListComponent);
         component = fixture.componentInstance;
-
-        it('should create', () => {
-            expect(component).toBeTruthy();
-        });
-
-        it('should fetch songs on init', () => {
-            mockSongService.getSongs.and.returnValue(of(dummyListSongs));
-            fixture.detectChanges();
-
-            expect(mockSongService.getSongs).toHaveBeenCalled();
-            expect(component.songs.length).toBe(2);
-        });
-
-        it('should open edit drawer with selected song', () => {
-            const song = dummyListSongs[0];
-            component.openEditDrawer(song);
-            expect(component.selectedSong).toEqual(song);
-        });
-
-        it('should close edit drawer', () => {
-            component.selectedSong = dummyListSongs[0];
-            component.closeEditDrawer();
-            expect(component.selectedSong).toBeNull();
-        });
-
-        it('should delete song after confirmation', () => {
-            spyOn(window, 'confirm').and.returnValue(true); // Simulerar en använder som bekräftar raderingen (trycker på 'OK')
-            mockSongService.deleteSong.and.returnValue(of({}));
-            component.songs = [...dummyListSongs];
-
-            component.deleteSong('1');
-
-            expect(mockSongService.deleteSong).toHaveBeenCalledWith('4');
-            expect(component.songs.length).toBe(1);
-            expect(component.songs.find(s => s.id === '4')).toBeUndefined();
-        });
-        
-        it('should not delete song if confirmation is cancelled', () => {
-            spyOn(window, 'confirm').and.returnValue(false);
-            component.songs = [...dummyListSongs];
-
-            component.deleteSong('4');
-
-            expect(mockSongService.deleteSong).not.toHaveBeenCalled();
-            expect(component.songs.length).toBe(2);
-        });
-
-        it('should handle error during deletion', () => {
-            spyOn(window, 'confirm').and.returnValue(true);
-            const consoleSpy = spyOn(console, 'error');
-            mockSongService.deleteSong.and.returnValue(throwError(() => new Error('Delete failed')));
-            component.songs = [...dummyListSongs];
-
-            component.deleteSong('1');
-
-            expect(consoleSpy).toHaveBeenCalledWith('Fel vid borttagning:', jasmine.any(Error));
-        });
     });
-})
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+
+    it('should fetch songs on init', () => {
+        mockSongService.getSongs.and.returnValue(of(dummyListSongs));
+        fixture.detectChanges();
+
+        expect(mockSongService.getSongs).toHaveBeenCalled();
+        expect(component.songs.length).toBe(2);
+    });
+
+    it('should open edit drawer with selected song', () => {
+        const song = dummyListSongs[0];
+        component.openEditDrawer(song);
+        expect(component.selectedSong).toEqual(song);
+    });
+
+    it('should close edit drawer', () => {
+        component.selectedSong = dummyListSongs[0];
+        component.closeEditDrawer();
+        expect(component.selectedSong).toBeNull();
+    });
+
+    it('should delete song after confirmation', () => {
+        spyOn(window, 'confirm').and.returnValue(true); // Simulerar en använder som bekräftar raderingen (trycker på 'OK')
+        mockSongService.deleteSong.and.returnValue(of({}));
+        component.songs = [...dummyListSongs];
+
+        component.deleteSong('4');
+
+        expect(mockSongService.deleteSong).toHaveBeenCalledWith('4');
+        expect(component.songs.length).toBe(1);
+        expect(component.songs.find(s => s.id === '4')).toBeUndefined();
+    });
+
+    it('should not delete song if confirmation is cancelled', () => {
+        spyOn(window, 'confirm').and.returnValue(false);
+        component.songs = [...dummyListSongs];
+
+        component.deleteSong('4');
+
+        expect(mockSongService.deleteSong).not.toHaveBeenCalled();
+        expect(component.songs.length).toBe(2);
+    });
+
+    it('should handle error during deletion', () => {
+        spyOn(window, 'confirm').and.returnValue(true);
+        const consoleSpy = spyOn(console, 'error');
+        mockSongService.deleteSong.and.returnValue(throwError(() => new Error('Delete failed')));
+        component.songs = [...dummyListSongs];
+
+        component.deleteSong('4');
+
+        expect(consoleSpy).toHaveBeenCalledWith('Fel vid borttagning:', jasmine.any(Error));
+    });
+});
