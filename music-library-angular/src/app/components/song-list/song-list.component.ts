@@ -12,12 +12,11 @@ import { SongEditDrawerComponent } from '../../song-edit-drawer/song-edit-drawer
   templateUrl: './song-list.component.html',
   styleUrl: './song-list.component.css'
 })
-
 export class SongListComponent implements OnInit {
   songs: Song[] = [];
-  selectedSong: Song | null = null; // Låten vald för redigering/uppdatering
+  selectedSong: Song | null = null;
 
-  constructor(private songService: SongService) { }
+  constructor(private songService: SongService) {}
 
   ngOnInit() {
     this.getSongs();
@@ -37,6 +36,14 @@ export class SongListComponent implements OnInit {
     this.selectedSong = null;
   }
 
+  onSongUpdated(updatedSong: Song) {
+    const index = this.songs.findIndex(s => s.id === updatedSong.id);
+    if (index !== -1) {
+      this.songs[index] = { ...updatedSong };
+    }
+    this.closeEditDrawer();
+  }
+
   deleteSong(songId: string): void {
     if (confirm('Är du säker på att du vill ta bort denna låt?')) {
       this.songService.deleteSong(songId).subscribe({
@@ -44,7 +51,7 @@ export class SongListComponent implements OnInit {
           this.songs = this.songs.filter(song => song.id !== songId);
         },
         error: (err) => {
-          console.error('Fel vid borttagning:', err)
+          console.error('Fel vid borttagning:', err);
         }
       });
     }
