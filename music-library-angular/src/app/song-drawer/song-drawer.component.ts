@@ -7,10 +7,15 @@ import { SongFormComponent } from '../components/song-form/song-form.component';
   standalone: true,
   imports: [CommonModule, SongFormComponent],
   templateUrl: './song-drawer.component.html',
-  styleUrl: './song-drawer.component.css'
+  styleUrls: ['./song-drawer.component.css']
 })
 export class SongDrawerComponent {
   @Output() close = new EventEmitter<void>();
+  isMobile: boolean = false;
+
+  constructor() {
+    this.isMobile = window.innerWidth <= 768; // Kontrollera om enheten är mobil
+  }
 
   closeDrawer() {
     this.close.emit();

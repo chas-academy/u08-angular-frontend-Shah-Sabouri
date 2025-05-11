@@ -1,4 +1,4 @@
-<div class="drawer">
+<div class="drawer" [ngClass]="{'bottom-drawer': isMobile}">
   <button class="close-btn" (click)="closeDrawer()">x</button>
   <h2>Uppdatera låt</h2>
   <app-song-form 

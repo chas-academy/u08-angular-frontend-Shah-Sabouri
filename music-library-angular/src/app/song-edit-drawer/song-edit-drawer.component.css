@@ -21,7 +21,30 @@
     cursor: pointer;
 }
 
+    /* Animation för att dra in drawer från höger */
 @keyframes slideIn {
     from { transform: translateX(100%); }
     to { transform: translateX(0); }
+}
+
+/* VID MINDRE SKÄRMAR */
+@media (max-width: 768px) {
+    .drawer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: unset; 
+        height: auto;
+        width: 100%;
+        box-shadow: 0 -2px 8px gray;
+        border-radius: 10px 10px 0 0;
+        animation: slideUp 0.3s ease-out forwards;
+    }
+
+    /* Animation för att dra upp drawer från botten */
+    @keyframes slideUp {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+    }
 }

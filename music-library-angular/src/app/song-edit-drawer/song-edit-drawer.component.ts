@@ -13,6 +13,7 @@ import { SongService } from '../services/song.service';
 })
 export class SongEditDrawerComponent {
   private _song!: Song;
+  isMobile: boolean = false;
 
   @Input() set song(value: Song) {
     this._song = { ...value };
@@ -26,7 +27,9 @@ export class SongEditDrawerComponent {
   @Output() close = new EventEmitter<void>();
   @Output() songUpdated = new EventEmitter<Song>();
 
-  constructor(private songService: SongService) {}
+  constructor(private songService: SongService) {
+    this.isMobile = window.innerWidth <= 768;  // Kontrollera skärmstorleken för mobil
+  }
 
   closeDrawer() {
     this.close.emit();
