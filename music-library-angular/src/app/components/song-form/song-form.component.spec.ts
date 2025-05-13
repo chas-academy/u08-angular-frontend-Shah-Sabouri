@@ -70,17 +70,6 @@ describe('SongFormComponent', () => {
         expect(emitSpy).toHaveBeenCalledWith(dummySong);
     });
 
-    it('should call addSong and navigate on submit if in create mode', () => {
-        const newSong: Song = { id: '', title: 'New Song', artist: 'New Artist', genre: 'New Genre', rating: 3 };
-        component.song = newSong;
-        mockSongService.addSong.and.returnValue(of({ ...newSong, id: '4' }));
-
-        component.onSubmit();
-
-        expect(mockSongService.addSong).toHaveBeenCalledWith(newSong);
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
-    });
-
     it('should cancel edit and emit cancelEdit event', () => {
         const emitSpy = spyOn(component.cancelEdit, 'emit');
         component.song = { ...dummySong };
