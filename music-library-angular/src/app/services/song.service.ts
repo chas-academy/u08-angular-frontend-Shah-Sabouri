@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Song } from '../models/song.model';
 import { map } from 'rxjs/operators';
 
@@ -9,8 +9,14 @@ import { map } from 'rxjs/operators';
 })
 export class SongService {
   private apiURL = 'https://u05-music-library-api.onrender.com/api/songs'
+  private newSong = new BehaviorSubject<Song | null>(null);
+  getNewSong = this.newSong.asObservable();
 
   constructor(private http: HttpClient) { }
+
+  setNewSong(song: Song) {
+    this.newSong.next(song)
+  }
 
   // HÄMTA ALLA LÅTAR
   getSongs(): Observable<Song[]> {

@@ -73,7 +73,10 @@ export class SongFormComponent implements OnInit {
       });
     } else {
       this.songService.addSong(this.song).subscribe({
-        next: () => this.router.navigate(['/']),
+        next: (data: Song) => {
+          this.songService.setNewSong(data);
+          this.cancelEdit.emit();
+        },
         error: (err) => console.error('Kunde inte lägga till låt:', err)
       });
     }

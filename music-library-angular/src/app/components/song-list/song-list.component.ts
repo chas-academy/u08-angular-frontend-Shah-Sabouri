@@ -16,7 +16,11 @@ export class SongListComponent implements OnInit {
   songs: Song[] = [];
   selectedSong: Song | null = null;
 
-  constructor(private songService: SongService) {}
+  constructor(private songService: SongService) {
+    this.songService.getNewSong.subscribe(song => {
+      if (song) this.songs.push(song);
+    });
+  }
 
   ngOnInit() {
     this.getSongs();
