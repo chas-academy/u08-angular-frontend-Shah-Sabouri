@@ -10,7 +10,7 @@ import { SongEditDrawerComponent } from '../../song-edit-drawer/song-edit-drawer
   standalone: true,
   imports: [CommonModule, RouterModule, SongEditDrawerComponent],
   templateUrl: './song-list.component.html',
-  styleUrl: './song-list.component.css'
+  styleUrls: ['./song-list.component.css']
 })
 export class SongListComponent implements OnInit {
   songs: Song[] = [];
@@ -33,11 +33,11 @@ export class SongListComponent implements OnInit {
   }
 
   openEditDrawer(song: Song) {
-    this.selectedSong = song;
+    this.selectedSong = song;  // Öppna drawer när redigera-knappen trycks
   }
 
   closeEditDrawer() {
-    this.selectedSong = null;
+    this.selectedSong = null;  // Stänger drawer genom att sätta selectedSong till null
   }
 
   onSongUpdated(updatedSong: Song) {
@@ -45,7 +45,7 @@ export class SongListComponent implements OnInit {
     if (index !== -1) {
       this.songs[index] = { ...updatedSong };
     }
-    this.closeEditDrawer();
+    this.closeEditDrawer();  // Stäng drawer efter uppdatering
   }
 
   deleteSong(songId: string): void {

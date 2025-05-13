@@ -1,13 +1,13 @@
 <ul>
-    <li *ngFor="let song of songs">
-        <strong>{{ song.title }}</strong> av {{ song.artist }} ({{ song.genre }}) – Betyg: {{ song.rating }}<br>
-        <button type="button" (click)="openEditDrawer(song)">Redigera</button>
-        <button type="button" (click)="deleteSong(song.id)">Ta bort</button>
-    </li>
+  <li *ngFor="let song of songs">
+    <strong>{{ song.title }}</strong> av {{ song.artist }} ({{ song.genre }}) – Betyg: {{ song.rating }}<br>
+    <button type="button" (click)="openEditDrawer(song)">Redigera</button>
+    <button type="button" (click)="deleteSong(song.id)">Ta bort</button>
+  </li>
 </ul>
 
 <app-song-edit-drawer
-    *ngIf="selectedSong"
+    *ngIf="selectedSong" 
     [song]="selectedSong"
     (close)="closeEditDrawer()"
     (songUpdated)="onSongUpdated($event)">
