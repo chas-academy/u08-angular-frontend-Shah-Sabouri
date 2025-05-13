@@ -19,4 +19,8 @@ export class NavbarComponent {
   closeDrawer() {
     this.showDrawer = false;
   }
+
+  goHome() {
+    this.closeDrawer();  // Stänger drawer när Hem trycks
+  }
 }
