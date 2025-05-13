@@ -7,8 +7,8 @@
 </ul>
 
 <app-song-edit-drawer
-    *ngIf="selectedSong" 
-    [song]="selectedSong"
-    (close)="closeEditDrawer()"
-    (songUpdated)="onSongUpdated($event)">
+  *ngIf="selectedSong"
+  [song]="selectedSong"
+  (close)="closeEditDrawer()"
+  (songUpdated)="onSongUpdated($event)">
 </app-song-edit-drawer>

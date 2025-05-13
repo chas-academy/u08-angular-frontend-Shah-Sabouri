@@ -23,6 +23,8 @@ export class SongFormComponent implements OnInit {
   };
 
   @Output() cancelEdit = new EventEmitter<void>();
+  @Output() songUpdated = new EventEmitter<Song>();
+  @Output() songCreated = new EventEmitter<Song>(); // Lägg till denna ifall du vill särskilja lägen
 
   originalSong: Song = {
     title: '',
@@ -32,9 +34,7 @@ export class SongFormComponent implements OnInit {
     id: '',
   };
 
-  get isEditMode(): boolean {
-    return !!this.song.id;
-  }
+  isEditMode: boolean = false;
 
   constructor(
     private songService: SongService,
@@ -50,6 +50,7 @@ export class SongFormComponent implements OnInit {
           next: (data) => {
             this.song = data;
             this.originalSong = { ...data };
+            this.isEditMode = true;
           },
           error: (err) => {
             console.error('Kunde inte hämta låten:', err);
@@ -58,10 +59,9 @@ export class SongFormComponent implements OnInit {
       }
     } else {
       this.originalSong = { ...this.song };
+      this.isEditMode = true;
     }
   }
-
-  @Output() songUpdated = new EventEmitter<Song>();
 
   onSubmit(): void {
     if (this.isEditMode) {
@@ -74,7 +74,8 @@ export class SongFormComponent implements OnInit {
     } else {
       this.songService.addSong(this.song).subscribe({
         next: (data: Song) => {
-          this.songService.setNewSong(data);
+          this.song = data;
+          this.songCreated.emit(this.song);
           this.cancelEdit.emit();
         },
         error: (err) => console.error('Kunde inte lägga till låt:', err)
@@ -87,4 +88,3 @@ export class SongFormComponent implements OnInit {
     this.cancelEdit.emit();
   }
 }
-
