@@ -1,9 +1,20 @@
 <ul>
-  <li *ngFor="let song of songs">
-    <strong>{{ song.title }}</strong> av {{ song.artist }} ({{ song.genre }}) – Betyg: {{ song.rating }}<br>
-    <button type="button" (click)="openEditDrawer(song)">Redigera</button>
-    <button type="button" (click)="deleteSong(song.id)">Ta bort</button>
+  <li *ngIf="loading">
+    <p>🔄 Hämtar låtar...</p>
   </li>
+
+  <li *ngIf="!loading && songs.length === 0">
+    <p>❌ Inga låtar hittades.</p>
+  </li>
+
+  <ng-container *ngIf="!loading && songs.length > 0">
+    <li *ngFor="let song of songs">
+     <img src="" alt="">
+      <strong>{{ song.title }}</strong> av {{ song.artist }} ({{ song.genre }}) – Betyg: {{ song.rating }}<br>
+      <button type="button" (click)="openEditDrawer(song)">Redigera</button>
+      <button type="button" (click)="deleteSong(song.id)">Ta bort</button>
+    </li>
+  </ng-container>
 </ul>
 
 <app-song-edit-drawer

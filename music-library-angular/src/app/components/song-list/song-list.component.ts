@@ -15,6 +15,7 @@ import { SongEditDrawerComponent } from '../../song-edit-drawer/song-edit-drawer
 export class SongListComponent implements OnInit {
   songs: Song[] = [];
   selectedSong: Song | null = null;
+  loading: boolean = true; // Börja i loadingläge
 
   constructor(private songService: SongService) {
     this.songService.getNewSong.subscribe(song => {
@@ -27,18 +28,24 @@ export class SongListComponent implements OnInit {
   }
 
   getSongs() {
-    this.songService.getSongs().subscribe((data) => {
-      this.songs = data;
+    this.songService.getSongs().subscribe({
+      next: (data) => {
+        this.songs = data;
+        this.loading = false; // false när datan verkligen är klar
+      },
+      error: (err) => {
+        console.error('Fel vid hämtning av låtar:', err);
+        this.loading = false;
+      }
     });
   }
 
   openEditDrawer(song: Song) {
-    this.selectedSong = song;  // Öppna drawer när redigera-knappen trycks
+    this.selectedSong = song;
   }
 
   closeEditDrawer() {
-    this.selectedSong = null;  // Stänger drawer genom att sätta selectedSong till null
-    
+    this.selectedSong = null;
   }
 
   onSongUpdated(updatedSong: Song) {
@@ -46,7 +53,7 @@ export class SongListComponent implements OnInit {
     if (index !== -1) {
       this.songs[index] = { ...updatedSong };
     }
-    this.closeEditDrawer();  // Stäng drawer efter uppdatering
+    this.closeEditDrawer();
   }
 
   deleteSong(songId: string): void {
