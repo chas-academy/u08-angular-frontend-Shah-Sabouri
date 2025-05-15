@@ -1,0 +1,28 @@
+ul {
+    list-style: none;
+}
+
+li {
+    padding-bottom: 10px;
+}
+
+img {
+    width: 20px;
+    height: auto;
+    padding-right: 10px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    width: 65px;
+    height: 25px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}

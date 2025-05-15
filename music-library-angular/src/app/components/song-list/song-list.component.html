@@ -9,7 +9,7 @@
 
   <ng-container *ngIf="!loading && songs.length > 0">
     <li *ngFor="let song of songs">
-     <img src="" alt="">
+      <img src="https://images.all-free-download.com/images/graphiclarge/record_vinyl_sign_icon_flat_contrast_black_white_sketch_6922480.jpg" alt="">
       <strong>{{ song.title }}</strong> av {{ song.artist }} ({{ song.genre }}) – Betyg: {{ song.rating }}<br>
       <button type="button" (click)="openEditDrawer(song)">Redigera</button>
       <button type="button" (click)="deleteSong(song.id)">Ta bort</button>
