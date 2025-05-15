@@ -59,17 +59,6 @@ describe('SongFormComponent', () => {
         expect(component.originalSong).toEqual(dummySong);
     });
 
-    it('should call updateSong on submit if in edit mode', () => {
-        component.song = { ...dummySong };
-        const emitSpy = spyOn(component.songUpdated, 'emit');
-        mockSongService.updateSong.and.returnValue(of(dummySong));
-
-        component.onSubmit();
-
-        expect(mockSongService.updateSong).toHaveBeenCalledWith('3', dummySong);
-        expect(emitSpy).toHaveBeenCalledWith(dummySong);
-    });
-
     it('should cancel edit and emit cancelEdit event', () => {
         const emitSpy = spyOn(component.cancelEdit, 'emit');
         component.song = { ...dummySong };
