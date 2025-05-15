@@ -38,6 +38,7 @@ export class SongListComponent implements OnInit {
 
   closeEditDrawer() {
     this.selectedSong = null;  // Stänger drawer genom att sätta selectedSong till null
+    
   }
 
   onSongUpdated(updatedSong: Song) {

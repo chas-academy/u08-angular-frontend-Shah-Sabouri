@@ -18,6 +18,7 @@ export class NavbarComponent {
 
   closeDrawer() {
     this.showDrawer = false;
+    window.location.reload();
   }
 
   goHome() {
